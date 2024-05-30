@@ -1,0 +1,3 @@
+Que debe tener la página:
+    -QR
+    -Explicar

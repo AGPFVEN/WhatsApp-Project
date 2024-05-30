@@ -1,0 +1,55 @@
+Annotations:
+    - Static has all the css and js files
+
+To do: 
+    Registration:
+        frontend:
+            design landing page
+            save phone number (in local browser session data)
+
+            
+To do (later):
+    Create circular queue of actions system
+    Disable headless option
+
+    Create frontend:
+        -Design page
+        -Loading page initial page
+            https://www.pinayu.com/blog/como-insertar-un-cargador-en-tu-web#resp1
+        -Pop-ups así: https://www.edureka.co/blog/understanding-structures-and-padding-in-c/
+        -Registration page
+
+        -Métodos de pago:
+            -ApplePay
+            -Tarjeta Bancaria
+
+        -Solution: Async Web Request Flow
+            -Tools:
+                - javascript -> XMLHttpRequest
+                - golang     -> POST?
+
+                - js send    -> http.FileServe
+                - js minimize-> Build tool (WebPack or Rollup)
+
+
+Solved:
+    Registration:
+        Qr extraction
+        Show qr to user
+        Session management (get browser session from user)
+        Autoregister (get browser data and phone number)
+        Compress files
+        Upload wss files (done):
+            Azure:
+                Resources:
+                    https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-go?tabs=roles-azure-portal
+                    https://www.youtube.com/watch?v=Vs3wyFk9upo
+                    https://www.youtube.com/watch?v=bX-SSTCe2CY
+                    https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal
+                    Use python example applied to go project. Spent 5+ hours following useless tutorials
+                Progress:
+                    Quickstart microsoft app done (permisions and local implementations successfully done)
+
+To run:
+    go build
+    ./WhatsApp_project
