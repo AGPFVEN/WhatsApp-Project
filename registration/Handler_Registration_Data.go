@@ -41,15 +41,6 @@ func InitialPageLoader(w http.ResponseWriter, r *http.Request) {
 
 	//Load html file with qr code
 	utils.SendHTMLToBrowser("log_in.html", w, p)
-	//t, err := template.ParseFiles("log_in.html")
-	//if err != nil {
-		//print(err)
-	//}
-	
-	////Execute template into user browser
-	//if t.Execute(w, p) != nil{
-		//print(err)
-	//}
 }
 
 func RegistrationDataHandler(ch chan string) (){
@@ -78,15 +69,14 @@ func RegistrationDataHandler(ch chan string) (){
 	}
 
 	//Extract QR data from wss page
-	//GetQrCode(ch, browserCtx)
+	GetQrCode(ch, browserCtx)
 
 	//Retrive User's phone number
 	userPhoneNumber := RetriveNumber(browserCtx)
 	log.Printf("Users phone number: %s", userPhoneNumber)
 
 	//This is done in order to let the whatsapp web page to synchronize with the mobile app
-	//time.Sleep(1 * time.Minute)
-	time.Sleep(3 * time.Second)
+	time.Sleep(1 * time.Minute)
 
 	chromedp.Cancel(browserCtx)
 

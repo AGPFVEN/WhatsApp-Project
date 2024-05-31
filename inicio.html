@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <title>Inicio</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta charset="UTF-8">
-    </head>
-    <body>
-        <section id="about-me">
-            <p>ipsum</p>
-        </section>
-        <section id="about-project">
-            <p>ipsum</p>
-        </section>
-        <section id="pay">
-            <p>ipsum</p>
-        </section>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Página Web</title>
+    <script>
+        window.addEventListener('load', function() {
+            fetch('/get-message')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('message').innerText = data.message;
+                })
+                .catch(error => console.error('Error al cargar el mensaje:', error));
+        });
+    </script>
+</head>
+<body>
+    <h1>Bienvenido a mi página web</h1>
+    <p id="message">Cargando mensaje...</p>
+</body>
 </html>

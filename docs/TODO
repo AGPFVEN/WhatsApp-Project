@@ -4,32 +4,34 @@ Annotations:
 To do: 
     Registration:
         frontend:
-            design landing page
+            design landing page (and improve user experience)
             save phone number (in local browser session data)
 
             
 To do (later):
-    Create circular queue of actions system
     Disable headless option
 
-    Create frontend:
-        -Design page
-        -Loading page initial page
-            https://www.pinayu.com/blog/como-insertar-un-cargador-en-tu-web#resp1
-        -Pop-ups así: https://www.edureka.co/blog/understanding-structures-and-padding-in-c/
-        -Registration page
+    Maybe:
+        Create circular queue of actions system
 
-        -Métodos de pago:
-            -ApplePay
-            -Tarjeta Bancaria
+        Create frontend:
+            -Design page
+            -Loading page initial page
+                https://www.pinayu.com/blog/como-insertar-un-cargador-en-tu-web#resp1
+            -Pop-ups así: https://www.edureka.co/blog/understanding-structures-and-padding-in-c/
+            -Registration page
 
-        -Solution: Async Web Request Flow
-            -Tools:
-                - javascript -> XMLHttpRequest
-                - golang     -> POST?
+            -Métodos de pago:
+                -ApplePay
+                -Tarjeta Bancaria
 
-                - js send    -> http.FileServe
-                - js minimize-> Build tool (WebPack or Rollup)
+            -Solution: Async Web Request Flow
+                -Tools:
+                    - javascript -> XMLHttpRequest
+                    - golang     -> POST?
+
+                    - js send    -> http.FileServe
+                    - js minimize-> Build tool (WebPack or Rollup)
 
 
 Solved:
