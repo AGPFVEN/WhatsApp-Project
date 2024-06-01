@@ -1,9 +1,11 @@
 package config
 
+import "log"
+
 const(
 	//Web pages
-	WebPagesFirstLand = "/landing"
-	WebPagesMessageToFirstLand = "/message-to-landing"
+	WebPagesLanding = "/landing"
+	WebPagesLandingMsg = "/landing-msg"
 
 	//Console Prompts
 	PromptStartBrowser = "Initializing Browser..."
@@ -20,3 +22,9 @@ const(
 	//Own number
 	QrDivFullXPATH3 = "/html/body/div[1]/div/div/div[2]/div[2]/div[1]/span/div/span/div/div[2]/div[5]/div/div/div[11]/div[1]/div/div[2]/div[1]/div/div/span[1]"
 )
+
+func HandleError(err error) {
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+}

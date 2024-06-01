@@ -6,15 +6,15 @@ import (
 
 	"github.com/agpfven/WhatsApp_project/config"
 	"github.com/agpfven/WhatsApp_project/registration"
+	//"github.com/agpfven/WhatsApp_project/controller"
 )
 
  func main(){
-	// Define routes for First landing 
-	http.HandleFunc(config.WebPagesFirstLand, registration.InitialPageLoader)
-	http.HandleFunc(config.WebPagesMessageToFirstLand, registration.InitialPageLoader)
+	// Define routes
+	http.HandleFunc(config.WebPagesLanding, registration.InitialPageLoader)
+	http.HandleFunc(config.WebPagesLandingMsg, registration.InitialPageMsg)
 
-	const port = ":3000"
-	
+	port := ":3000"
 	log.Println("Serving port " + port)
 	http.ListenAndServe(port, nil)
 }

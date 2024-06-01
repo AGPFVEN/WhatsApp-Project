@@ -7,21 +7,31 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://unpkg.com/qrious/dist/qrious.js"></script>
 	<title>Wss Project</title>
+	<script>
+		window.addEventListener('load', function() {
+			fetch('{{.QrImage}}')
+				.then(response => response.json())
+				.then(data => {
+					new QRious({
+						element: document.querySelector("#qr_code"),
+						value: data.message, 	// La URL o el texto
+						size: 200,
+						backgroundAlpha: 0, 	// 0 para fondo transparente
+						foreground: "#8bc34a", 	// Color del QR
+						level: "H", 			// Puede ser L,M,Q y H (L es el de menor nivel, H el mayor)
+					});
+                    document.getElementById('aviso').innerText = "Escanea con Wss";
+                    document.getElementById('qr_code').style.visibility = 'visible';
+				})
+				.catch(error => console.error('Error loading qr code: ', error))
+		})
+
+	</script>
 </head>
 
 <body>
-	<p>Aviso {{.QrImage}}</p>
-	<img alt="Code QR" id="qr_code">
-	<script>
-		new QRious({
-			element: document.querySelector("#qr_code"),
-			value: "{{.QrImage }}", // La URL o el texto
-			size: 200,
-			backgroundAlpha: 0, // 0 para fondo transparente
-			foreground: "#8bc34a", // Color del QR
-			level: "H", // Puede ser L,M,Q y H (L es el de menor nivel, H el mayor)
-		});
-	</script>
+	<p id="aviso">Cargando...</p>
+	<img alt="Code QR" id="qr_code" style="visibility:hidden">
 </body>
 
 </html>
