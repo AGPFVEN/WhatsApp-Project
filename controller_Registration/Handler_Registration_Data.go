@@ -1,4 +1,4 @@
-package registration
+package controller_registration
 
 import (
 	"context"

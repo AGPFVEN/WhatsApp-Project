@@ -1,11 +1,11 @@
-package registration
+package controller_registration
 
 import (
 	"context"
 	"os"
-    "log"
+    	"log"
 
-    "github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+    	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob"
 
 	"github.com/agpfven/WhatsApp_project/utils"
@@ -24,26 +24,26 @@ func HandlerRegistrationUpload(phoneNumber string, isAllocatorClosed context.Con
 	}
 
 	//Compress browser sesion
-    zippath := phoneNumber + "zip"
-    log.Println("Creating user zip ...")
+    	zippath := phoneNumber + "zip"
+    	log.Println("Creating user zip ...")
 	utils.MyZip(zippath, "./myUsers")
-    log.Println("User zip created")
+    	log.Println("User zip created")
 
-    mf, _ := os.Open(zippath)
+    	mf, _ := os.Open(zippath)
 	state, _:= mf.Stat()
 	data := make([]byte, state.Size())
 	mf.Read(data)
 
-    //Send browser session to azure blob storage
-    log.Println("Sending user zip to azure...")
-    storeInAzure(phoneNumber, data)
-    log.Println(data)
-    log.Println("User zip sent to azure") 
+    	//Send browser session to azure blob storage
+    	log.Println("Sending user zip to azure...")
+    	storeInAzure(phoneNumber, data)
+    	log.Println(data)
+    	log.Println("User zip sent to azure") 
 }
 
 func storeInAzure(blobName string, blobToSend []byte) (err error){
-    storage_account_url := os.Getenv("STORAGE_ACCOUNT_URL")
-    ctx := context.Background()
+    	storage_account_url := os.Getenv("STORAGE_ACCOUNT_URL")
+    	ctx := context.Background()
 
 	credential, err := azidentity.NewDefaultAzureCredential(nil)
 	handleError(err)
@@ -51,7 +51,7 @@ func storeInAzure(blobName string, blobToSend []byte) (err error){
 	client, err := azblob.NewClient(storage_account_url, credential, nil)
 	handleError(err)
 
-    log.Printf("Uploading a blob named %s\n", blobName)
+    	log.Printf("Uploading a blob named %s\n", blobName)
 	_, err = client.UploadBuffer(ctx, "raw", blobName, blobToSend, &azblob.UploadBufferOptions{})
 	handleError(err)
 

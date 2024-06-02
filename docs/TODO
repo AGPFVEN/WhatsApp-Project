@@ -5,8 +5,10 @@ To do:
     Registration:
         frontend:
             design landing page
-            save phone number (in local browser session data)
-
+            CURRENTLY: save phone number (in local browser session data)
+            use hash to encrypt phone number and upload it to azure
+            encrypt web storage in the cloud
+                the most secure approach would be to encrypt in the user side (but it would make the user experience worse)
             
 To do (later):
     Create circular queue of actions system
