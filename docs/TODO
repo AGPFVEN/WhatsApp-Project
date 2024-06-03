@@ -6,6 +6,8 @@ To do:
         frontend:
             design landing page
             CURRENTLY: save phone number (in local browser session data)
+                To do this I will use a database to relate the user phone number with the user qr session data
+                This is done because the user needs to use a get to request info from the server
             use hash to encrypt phone number and upload it to azure
             encrypt web storage in the cloud
                 the most secure approach would be to encrypt in the user side (but it would make the user experience worse)

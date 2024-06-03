@@ -13,6 +13,11 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
+const registration_qr_phone_size = 3
+
+var registration_qr_phone [registration_qr_phone_size][2]string
+
+
 // struct for the template of the log in page
 type logInData struct{
 	QrImage string
@@ -37,12 +42,12 @@ func InitialPageLoader(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func InitialPageMsg(w http.ResponseWriter, r *http.Request) {
+func InitialPageQrMsg(w http.ResponseWriter, r *http.Request) {
 	//Create string channel (in order to use concurrency)
 	qrData := make(chan string)
 
 	//Retrive qr from whatsapp web page and handle all data retrieval
-	go RegistrationDataHandler(qrData)
+	go registrationDataHandler(qrData)
 
 	//Prepare message
 	w.Header().Set("Content-Type", "application/json")
@@ -51,7 +56,7 @@ func InitialPageMsg(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(response)	
 }
 
-func RegistrationDataHandler(ch chan string) (){
+func registrationDataHandler(ch chan string) (){
 	//Initializing Browser Context (if headless mode is not disabled this doesn't work)
 	log.Println(config.PromptStartBrowser)
 	allocatorCtx, allocatorCancel := chromedp.NewExecAllocator(
@@ -77,10 +82,10 @@ func RegistrationDataHandler(ch chan string) (){
 	}
 
 	//Extract QR data from wss page
-	GetQrCode(ch, browserCtx)
+	getQrCode(ch, browserCtx)
 
 	//Retrive User's phone number
-	userPhoneNumber := RetriveNumber(browserCtx)
+	userPhoneNumber := retriveNumber(browserCtx)
 	log.Printf("Users phone number: %s", userPhoneNumber)
 
 	//This is done in order to let the whatsapp web page to synchronize with the mobile app
@@ -94,7 +99,7 @@ func RegistrationDataHandler(ch chan string) (){
 }
 
 //This function retrives the user phone number
-func RetriveNumber(givenCtx context.Context) (string){
+func retriveNumber(givenCtx context.Context) (string){
 	//This function checks the number of the user using a channel
 	utils.SelectContact(givenCtx)
 
@@ -110,7 +115,7 @@ func RetriveNumber(givenCtx context.Context) (string){
 }
 
 //This functions retrives the image of the qr code of the wss page
-func GetQrCode(auxiliarCh chan string, browserCtx context.Context) () {
+func getQrCode(auxiliarCh chan string, browserCtx context.Context) () {
 	log.Println("Extracting QR data...")
 
 	//Where the attributes data will be stored

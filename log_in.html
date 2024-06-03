@@ -23,12 +23,14 @@
                     		document.getElementById('aviso').innerText = "Escanea con Wss";
                     		document.getElementById('qr_code').style.visibility = 'visible';
 
+					/*
 			  		fetch('{{.QrImage}}')
 					.then(response1 => response1.json())
 					.then(data1 => {
                     			document.getElementById('estado').innerText = data1.message;
 					})
 					.catch(error => console.error('Error loading qr code: ', error))
+					*/
 				})
 				.catch(error => console.error('Error loading qr code: ', error))
 		})
