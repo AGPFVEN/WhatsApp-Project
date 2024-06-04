@@ -6,6 +6,7 @@ const(
 	//Web pages
 	WebPagesLanding = "/landing"
 	WebPagesLandingMsg = "/landing-msg"
+	WebPagesLandingMsg1 = "/landing-msg1"
 
 	//Console Prompts
 	PromptStartBrowser = "Initializing Browser..."

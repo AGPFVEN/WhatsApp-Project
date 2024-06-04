@@ -9,10 +9,11 @@ import (
 	//"github.com/agpfven/WhatsApp_project/controller"
 )
 
- func main(){
+func main(){
 	// Define routes
 	http.HandleFunc(config.WebPagesLanding, controller_registration.InitialPageLoader)
 	http.HandleFunc(config.WebPagesLandingMsg, controller_registration.InitialPageQrMsg)
+	http.HandleFunc(config.WebPagesLandingMsg1, controller_registration.InitialPageQrMsg)
 
 	port := ":3000"
 	log.Println("Serving port " + port)

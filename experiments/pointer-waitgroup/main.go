@@ -21,13 +21,12 @@ func f0(){
 	wg.Add(1)
 	
 	var q string = "1"
-	var p *string = &q
 
-	go f1(p, wg)
+	go f1(&q, wg)
 
 	//log.Println("InitalPageQrMsg " + <-c)
 	wg.Wait()
-	log.Println("InitalPageQrMsg " + *p)
+	log.Println("InitalPageQrMsg " + q)
 
 	//close(c)
 }

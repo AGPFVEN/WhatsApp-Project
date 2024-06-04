@@ -3,8 +3,10 @@ package controller_registration
 import (
 	"context"
 	"encoding/json"
+	"io"
 	"log"
 	"net/http"
+	"sync"
 	"text/template"
 	"time"
 
@@ -20,7 +22,8 @@ var registration_qr_phone [registration_qr_phone_size][2]string
 
 // struct for the template of the log in page
 type logInData struct{
-	QrImage string
+	qrMsgURL string
+	phoneMsgURL string
 }
 
 // struct for the template of the log in page messenger
@@ -34,7 +37,9 @@ func InitialPageLoader(w http.ResponseWriter, r *http.Request) {
 	config.HandleError(err)
 
 	//Fill template
-	p := logInData{QrImage: config.WebPagesLandingMsg}
+	p := logInData{qrMsgURL: config.WebPagesLandingMsg,
+		phoneMsgURL: config.WebPagesLandingMsg1,
+	}
 	
 	//Execute template into user browser
 	if t.Execute(w, p) != nil{
@@ -44,19 +49,39 @@ func InitialPageLoader(w http.ResponseWriter, r *http.Request) {
 
 func InitialPageQrMsg(w http.ResponseWriter, r *http.Request) {
 	//Create string channel (in order to use concurrency)
-	qrData := make(chan string)
+	//qrData := make(chan string)
+	wg := new(sync.WaitGroup)
+	wg.Add(1)
+
+	var qrData string
 
 	//Retrive qr from whatsapp web page and handle all data retrieval
-	go registrationDataHandler(qrData)
+	go registrationDataHandler(&qrData, wg)
 
 	//Prepare message
 	w.Header().Set("Content-Type", "application/json")
-	response := Response{Message: <-qrData}
-	close(qrData)
+	wg.Wait()
+	response := Response{qrData}
+	//close(qrData)
 	json.NewEncoder(w).Encode(response)	
 }
 
-func registrationDataHandler(ch chan string) (){
+func InitialPagePhoneMsg(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		body, err := io.ReadAll(r.Body)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusBadRequest)
+			return
+		}
+		log.Println("Received qr data: " + string(body))
+		io.WriteString(w, "Received text: %s" + string(body))
+	} else {
+		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+	}
+}
+
+//func registrationDataHandler(ch chan string) (){
+func registrationDataHandler(qrDataPtrLocal *string, wgLocal *sync.WaitGroup) (){
 	//Initializing Browser Context (if headless mode is not disabled this doesn't work)
 	log.Println(config.PromptStartBrowser)
 	allocatorCtx, allocatorCancel := chromedp.NewExecAllocator(
@@ -82,11 +107,14 @@ func registrationDataHandler(ch chan string) (){
 	}
 
 	//Extract QR data from wss page
-	getQrCode(ch, browserCtx)
+	getQrCode(qrDataPtrLocal, browserCtx, wgLocal)
 
 	//Retrive User's phone number
 	userPhoneNumber := retriveNumber(browserCtx)
 	log.Printf("Users phone number: %s", userPhoneNumber)
+
+	//
+	go storeQrPhone(*qrDataPtrLocal, userPhoneNumber, wgLocal)
 
 	//This is done in order to let the whatsapp web page to synchronize with the mobile app
 	//time.Sleep(1 * time.Minute)
@@ -94,8 +122,23 @@ func registrationDataHandler(ch chan string) (){
 
 	chromedp.Cancel(browserCtx)
 
+
 	//Next step of the process
 	go HandlerRegistrationUpload(userPhoneNumber, allocatorCtx, browserCtx)
+}
+
+func storeQrPhone(qrData string, phoneNumber string, wg *sync.WaitGroup){
+	for i:= 0; i < registration_qr_phone_size; i++{
+		if(registration_qr_phone[i][0] == ""){
+			wg.Wait()
+			registration_qr_phone[i][0] = qrData
+			registration_qr_phone[i][1] = phoneNumber
+			
+		}
+	}
+
+	//NEED TO CARE WHEN THIS HAPPEN --------------------------------------------
+	log.Println("Registration is full ...")
 }
 
 //This function retrives the user phone number
@@ -115,7 +158,8 @@ func retriveNumber(givenCtx context.Context) (string){
 }
 
 //This functions retrives the image of the qr code of the wss page
-func getQrCode(auxiliarCh chan string, browserCtx context.Context) () {
+//func getQrCode(auxiliarCh chan string, browserCtx context.Context) () {
+func getQrCode(extractedQr *string, browserCtx context.Context, wgLocal *sync.WaitGroup) () {
 	log.Println("Extracting QR data...")
 
 	//Where the attributes data will be stored
@@ -133,5 +177,6 @@ func getQrCode(auxiliarCh chan string, browserCtx context.Context) () {
 
 	//Pass the QR data information to the channel
 	println(data["data-ref"])
-	auxiliarCh <- data["data-ref"]
+	*extractedQr = data["data-ref"]
+	wgLocal.Done()
 }

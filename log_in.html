@@ -9,7 +9,7 @@
 	<title>Wss Project</title>
 	<script>
 		window.addEventListener('load', function() {
-			fetch('{{.QrImage}}')
+			fetch('{{.qrMsgURL}}')
 				.then(response => response.json())
 				.then(data => {
 					new QRious({
@@ -18,10 +18,25 @@
 						size: 200,
 						backgroundAlpha: 0, 	// 0 para fondo transparente
 						foreground: "#8bc34a", 	// Color del QR
-						level: "H", 			// Puede ser L,M,Q y H (L es el de menor nivel, H el mayor)
+						level: "H", 		// Puede ser L,M,Q y H (L es el de menor nivel, H el mayor)
 					});
                     		document.getElementById('aviso').innerText = "Escanea con Wss";
                     		document.getElementById('qr_code').style.visibility = 'visible';
+
+					fetch('{{.phoneMsgURL}}', {
+  						method: 'POST',
+  						headers: {
+    							'Content-Type': 'text/plain'
+  						},
+  						body: data.message
+					})
+					.then(response => response.text())
+					.then(responseText => {
+  						console.log('Success:', responseText);
+					})
+					.catch(error => {
+  						console.error('Error:', error);
+					});
 
 					/*
 			  		fetch('{{.QrImage}}')
