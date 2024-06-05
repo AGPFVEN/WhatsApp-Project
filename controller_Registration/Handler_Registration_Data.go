@@ -6,6 +6,8 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
 	"sync"
 	"text/template"
 	"time"
@@ -22,8 +24,8 @@ var registration_qr_phone [registration_qr_phone_size][2]string
 
 // struct for the template of the log in page
 type logInData struct{
-	qrMsgURL string
-	phoneMsgURL string
+	QrMsgURL string
+	PhoneMsgURL string
 }
 
 // struct for the template of the log in page messenger
@@ -37,8 +39,8 @@ func InitialPageLoader(w http.ResponseWriter, r *http.Request) {
 	config.HandleError(err)
 
 	//Fill template
-	p := logInData{qrMsgURL: config.WebPagesLandingMsg,
-		phoneMsgURL: config.WebPagesLandingMsg1,
+	p := logInData{QrMsgURL: config.WebPagesLandingMsg,
+		PhoneMsgURL: config.WebPagesLandingMsg1,
 	}
 	
 	//Execute template into user browser
@@ -67,6 +69,7 @@ func InitialPageQrMsg(w http.ResponseWriter, r *http.Request) {
 }
 
 func InitialPagePhoneMsg(w http.ResponseWriter, r *http.Request) {
+	log.Println("1er paso")
 	if r.Method == http.MethodPost {
 		body, err := io.ReadAll(r.Body)
 		if err != nil {
@@ -74,7 +77,19 @@ func InitialPagePhoneMsg(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		log.Println("Received qr data: " + string(body))
-		io.WriteString(w, "Received text: %s" + string(body))
+		for i, j := 0, 0; j == 0; i++{
+		  if (string(body) == registration_qr_phone[i][0]){
+			io.WriteString(w, registration_qr_phone[i][1])
+			registration_qr_phone[i][0] = ""
+			registration_qr_phone[i][1] = ""
+			j = 1
+		  }
+
+		  if (i == 2){
+			i = 0
+		  }
+		}
+		//io.WriteString(w, "Received text: %s" + string(body))
 	} else {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 	}
@@ -82,6 +97,18 @@ func InitialPagePhoneMsg(w http.ResponseWriter, r *http.Request) {
 
 //func registrationDataHandler(ch chan string) (){
 func registrationDataHandler(qrDataPtrLocal *string, wgLocal *sync.WaitGroup) (){
+	var erg string
+
+	for i:=0; i < registration_qr_phone_size; i++{
+		erg = "myUsers/erga" + strconv.Itoa(i)
+		_, err := os.Stat(erg)
+		if os.IsNotExist(err){
+			log.Println("Going good")
+			i = registration_qr_phone_size
+		}
+		log.Println("Not going good")
+	}
+
 	//Initializing Browser Context (if headless mode is not disabled this doesn't work)
 	log.Println(config.PromptStartBrowser)
 	allocatorCtx, allocatorCancel := chromedp.NewExecAllocator(
@@ -89,8 +116,8 @@ func registrationDataHandler(qrDataPtrLocal *string, wgLocal *sync.WaitGroup) ()
 		append(
 			chromedp.DefaultExecAllocatorOptions[:], 
 			chromedp.Flag("headless", false),
-			chromedp.UserDataDir("myUsers"),
-			)...
+			chromedp.UserDataDir(erg),
+		)...
 	)
 	defer allocatorCancel()
 
@@ -167,7 +194,6 @@ func getQrCode(extractedQr *string, browserCtx context.Context, wgLocal *sync.Wa
 
 	//Go to Wss webpage, wait for QR and extract its information
 	err := chromedp.Run(browserCtx,
-		chromedp.Navigate("http://web.whatsapp.com/"),
 		chromedp.WaitEnabled(config.QrDivByQuery1, chromedp.ByQuery),
 		chromedp.Attributes(config.QrDivFullXPATH1, &data),
 		)

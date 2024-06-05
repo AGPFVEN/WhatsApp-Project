@@ -36,8 +36,8 @@ func HandlerRegistrationUpload(phoneNumber string, isAllocatorClosed context.Con
 
     	//Send browser session to azure blob storage
     	log.Println("Sending user zip to azure...")
-    	storeInAzure(phoneNumber, data)
-    	log.Println(data)
+    	//storeInAzure(phoneNumber, data)
+    	//log.Println(data)
     	log.Println("User zip sent to azure") 
 }
 
