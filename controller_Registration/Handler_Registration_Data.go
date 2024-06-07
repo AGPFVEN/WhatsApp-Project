@@ -6,8 +6,8 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
-	"strconv"
+	//"os"
+	//"strconv"
 	"sync"
 	"text/template"
 	"time"
@@ -99,17 +99,18 @@ func InitialPagePhoneMsg(w http.ResponseWriter, r *http.Request) {
 func registrationDataHandler(qrDataPtrLocal *string, wgLocal *sync.WaitGroup) (){
 	var erg string
 
-	for i:=0; i < registration_qr_phone_size; i++{
-		erg = "myUsers/erga" + strconv.Itoa(i)
-		_, err := os.Stat(erg)
-		if os.IsNotExist(err){
-			log.Println("Going good")
-			i = registration_qr_phone_size
-		}
-		log.Println("Not going good")
-	}
+	//for i:=0; i < registration_qr_phone_size; i++{
+		//erg = "myUsers/erga" + strconv.Itoa(i)
+		//_, err := os.Stat(erg)
+		//if os.IsNotExist(err){
+			//log.Println("Going good")
+			//i = registration_qr_phone_size
+		//}
+		//log.Println("Not going good")
+	//}
 
 	//Initializing Browser Context (if headless mode is not disabled this doesn't work)
+	erg = "myUsers/erga0"
 	log.Println(config.PromptStartBrowser)
 	allocatorCtx, allocatorCancel := chromedp.NewExecAllocator(
 		context.Background(),
@@ -134,7 +135,7 @@ func registrationDataHandler(qrDataPtrLocal *string, wgLocal *sync.WaitGroup) ()
 	}
 
 	//Extract QR data from wss page
-	getQrCode(qrDataPtrLocal, browserCtx, wgLocal)
+	//getQrCode(qrDataPtrLocal, browserCtx, wgLocal)
 
 	//Retrive User's phone number
 	userPhoneNumber := retriveNumber(browserCtx)

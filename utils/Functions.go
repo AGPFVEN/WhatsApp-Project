@@ -12,6 +12,7 @@ import (
 
 func SelectContact(givenCtx context.Context) (){
 	//This function checks the number of the user
+	log.Println("hihi")
 	err := chromedp.Run(givenCtx,
 		chromedp.WaitReady(config.QrDivByQuery2, chromedp.ByQuery),
 		chromedp.WaitReady("body"),
