@@ -50,8 +50,7 @@ func InitialPageLoader(w http.ResponseWriter, r *http.Request) {
 }
 
 func InitialPageQrMsg(w http.ResponseWriter, r *http.Request) {
-	//Create string channel (in order to use concurrency)
-	//qrData := make(chan string)
+	//Create waitgroup (in order to use concurrency)
 	wg := new(sync.WaitGroup)
 	wg.Add(1)
 
@@ -97,7 +96,8 @@ func InitialPagePhoneMsg(w http.ResponseWriter, r *http.Request) {
 
 //func registrationDataHandler(ch chan string) (){
 func registrationDataHandler(qrDataPtrLocal *string, wgLocal *sync.WaitGroup) (){
-	var erg string
+	//var erg string
+	erg := "myUsers/erga0"
 
 	//for i:=0; i < registration_qr_phone_size; i++{
 		//erg = "myUsers/erga" + strconv.Itoa(i)
@@ -110,7 +110,6 @@ func registrationDataHandler(qrDataPtrLocal *string, wgLocal *sync.WaitGroup) ()
 	//}
 
 	//Initializing Browser Context (if headless mode is not disabled this doesn't work)
-	erg = "myUsers/erga0"
 	log.Println(config.PromptStartBrowser)
 	allocatorCtx, allocatorCancel := chromedp.NewExecAllocator(
 		context.Background(),
