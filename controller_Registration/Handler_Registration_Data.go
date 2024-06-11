@@ -33,6 +33,7 @@ type Response struct {
 	Message string `json:"message"`
 }
 
+// Send loading html and request to server
 func InitialPageLoader(w http.ResponseWriter, r *http.Request) {
 	//Create template
 	t, err := template.ParseFiles("log_in.html")
@@ -49,6 +50,7 @@ func InitialPageLoader(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Send qr data to frontend
 func InitialPageQrMsg(w http.ResponseWriter, r *http.Request) {
 	//Create waitgroup (in order to use concurrency)
 	wg := new(sync.WaitGroup)
@@ -63,10 +65,10 @@ func InitialPageQrMsg(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	wg.Wait()
 	response := Response{qrData}
-	//close(qrData)
 	json.NewEncoder(w).Encode(response)	
 }
 
+// Send phone number to frontend
 func InitialPagePhoneMsg(w http.ResponseWriter, r *http.Request) {
 	log.Println("1er paso")
 	if r.Method == http.MethodPost {
@@ -88,17 +90,14 @@ func InitialPagePhoneMsg(w http.ResponseWriter, r *http.Request) {
 			i = 0
 		  }
 		}
-		//io.WriteString(w, "Received text: %s" + string(body))
 	} else {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 	}
 }
 
-//func registrationDataHandler(ch chan string) (){
 func registrationDataHandler(qrDataPtrLocal *string, wgLocal *sync.WaitGroup) (){
-	//var erg string
+	//Manage multiple registrations at the same time
 	erg := "myUsers/erga0"
-
 	//for i:=0; i < registration_qr_phone_size; i++{
 		//erg = "myUsers/erga" + strconv.Itoa(i)
 		//_, err := os.Stat(erg)
@@ -140,7 +139,6 @@ func registrationDataHandler(qrDataPtrLocal *string, wgLocal *sync.WaitGroup) ()
 	userPhoneNumber := retriveNumber(browserCtx)
 	log.Printf("Users phone number: %s", userPhoneNumber)
 
-	//
 	go storeQrPhone(*qrDataPtrLocal, userPhoneNumber, wgLocal)
 
 	//This is done in order to let the whatsapp web page to synchronize with the mobile app
