@@ -12,17 +12,17 @@ import (
 
 func SelectContact(givenCtx context.Context) (){
 	//This function checks the number of the user
-	log.Println("hihi")
+	log.Println("Selecting contact ...")
 	err := chromedp.Run(givenCtx,
 		chromedp.WaitReady(config.QrDivByQuery2, chromedp.ByQuery),
-		chromedp.WaitReady("body"),
+		//chromedp.WaitReady("body"),
 		chromedp.Click(config.QrDivFullXPATH2),
-		chromedp.WaitReady("body"),
+		//chromedp.WaitReady("body"),
 	)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("Useful page ready")
+	log.Println("Select contact page ready")
 }
 
 func SendHTMLToBrowser(filename string, w http.ResponseWriter, data any) (error){
