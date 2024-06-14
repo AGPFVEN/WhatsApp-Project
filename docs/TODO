@@ -17,6 +17,10 @@ To do:
                     - Not use hash to encrypt user session in cloud (Symmetric or Asymmetric cryto)
                     - Encrypt web storage in the cloud
                         the most secure approach would be to encrypt in the user side (but it would make the user experience worse)
+                Packages:
+                    - https://pkg.go.dev/crypto
+                    - https://pkg.go.dev/github.com/fernet/fernet-go
+                    - MTLS (Mutual-TLS). This create an encrypted channel
             
 To do (later):
     Create circular queue of actions system
