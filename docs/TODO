@@ -13,8 +13,9 @@ To do:
                     3. User gets hash value
                     4. User stores hash value 
                 Considerations:
-                    - Use hash to encrypt phone number and upload it to azure
+                    - Use hash to encrypt phone number and upload it to azure (AES?)
                     - Not use hash to encrypt user session in cloud (Symmetric or Asymmetric cryto)
+                        - TLS1.3 and MITM
                     - Encrypt web storage in the cloud
                         the most secure approach would be to encrypt in the user side (but it would make the user experience worse)
                 Packages:
