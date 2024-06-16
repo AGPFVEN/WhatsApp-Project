@@ -4,7 +4,6 @@ Annotations:
 To do: 
     Registration:
         frontend:
-            design landing page
             CURRENTLY: save user session (in local browser session data)
                 Algorithm:
                     1. User gets a qr code (done)
@@ -13,19 +12,19 @@ To do:
                     3. User gets hash value
                     4. User stores hash value 
                 Considerations:
-                    - Use hash to encrypt phone number and upload it to azure (AES?)
-                    - Not use hash to encrypt user session in cloud (Symmetric or Asymmetric cryto)
-                        - TLS1.3 and MITM
+                    - Use hash to encrypt phone number and upload it to azure
+                    - Use symmetric encryption to encrypt user session in cloud (AES256)
+                        - AES256 is secure even for quantum computing (For a not short period of time, assuming the obvious, )
                     - Encrypt web storage in the cloud
-                        the most secure approach would be to encrypt in the user side (but it would make the user experience worse)
+                        the most secure approach would be to encrypt in the user side (but it would make the user experience worse, as to make the outmost secure aproximation I would need to rely on the user sending data periodically)
                 Packages:
                     - https://pkg.go.dev/crypto
                     - https://pkg.go.dev/github.com/fernet/fernet-go
                     - MTLS (Mutual-TLS). This create an encrypted channel
             
 To do (later):
-    Create circular queue of actions system
-    Disable headless option
+    - Disable headless option
+    - Where to store AES256 key? 
 
     Create frontend:
         -Design page
