@@ -14,7 +14,7 @@ To do:
                 Considerations:
                     - Use hash to encrypt phone number and upload it to azure
                     - Use symmetric encryption to encrypt user session in cloud (AES256)
-                        - AES256 is secure even for quantum computing (For a not short period of time, assuming the obvious, )
+                        - AES256 is secure even for quantum computing (For a not short period of time, assuming no groundbreaking discoveries)
                     - Encrypt web storage in the cloud
                         the most secure approach would be to encrypt in the user side (but it would make the user experience worse, as to make the outmost secure aproximation I would need to rely on the user sending data periodically)
                 Packages:
