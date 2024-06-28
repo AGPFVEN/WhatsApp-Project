@@ -178,6 +178,7 @@ func retriveNumber(givenCtx context.Context) (string){
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Println("kkkkkk")
 
 	return data["title"]
 }
@@ -188,22 +189,22 @@ func getQrCode(extractedQr *string, browserCtx context.Context, wgLocal *sync.Wa
 	log.Println("Extracting QR data...")
 
 	//Where the attributes data will be stored
-	//var data map[string]string
+	var data map[string]string
 
-	////Go to Wss webpage, wait for QR and extract its information
-	//err := chromedp.Run(browserCtx,
-		//chromedp.WaitEnabled(config.QrDivByQuery1, chromedp.ByQuery),
-		//chromedp.Attributes(config.QrDivFullXPATH1, &data),
-		//)
-	//if err != nil {
-		//log.Fatal(err)
-	//}
+	//Go to Wss webpage, wait for QR and extract its information
+	err := chromedp.Run(browserCtx,
+		chromedp.WaitEnabled(config.QrDivByQuery1, chromedp.ByQuery),
+		chromedp.Attributes(config.QrDivFullXPATH1, &data),
+		)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	////Pass the QR data information to the channel
-	//println(data["data-ref"])
-	//*extractedQr = data["data-ref"]
+	//Pass the QR data information to the channel
+	println(data["data-ref"])
+	*extractedQr = data["data-ref"]
 
 
-	*extractedQr = "hihi"
+	//*extractedQr = "hihi"
 	wgLocal.Done()
 }

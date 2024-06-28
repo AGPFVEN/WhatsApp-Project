@@ -15,6 +15,7 @@
 				.then(response => response.json())
 				.then(data => {
 					qrdata = data.message
+					localStorage.setItem("qr_data", data.message)
 					new QRious({
 						element: document.querySelector("#qr_code"),
 						value: data.message, 	// La URL o el texto
@@ -36,6 +37,7 @@
 					.then(response => response.text())
 					.then(responseText => {
   						console.log('Success:', responseText);
+						localStorage.setItem("phone_number", responseText)
 					})
 					.catch(error => {
   						console.error('Error:', error);
