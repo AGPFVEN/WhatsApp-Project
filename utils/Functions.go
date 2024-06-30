@@ -14,10 +14,8 @@ func SelectContact(givenCtx context.Context) (){
 	//This function checks the number of the user
 	log.Println("Selecting contact ...")
 	err := chromedp.Run(givenCtx,
-		chromedp.WaitVisible("._ah_-", chromedp.ByQuery),
-		chromedp.WaitReady("body"),
+		chromedp.WaitNotPresent("_aly_", chromedp.ByQuery),
 		chromedp.WaitReady(config.QrDivByQuery2, chromedp.ByQuery),
-		chromedp.WaitReady("body"),
 		chromedp.Click(config.QrDivFullXPATH2),
 		//chromedp.WaitReady("body"),
 	)
