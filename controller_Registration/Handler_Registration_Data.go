@@ -6,6 +6,9 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
+	"strconv"
+
 	//"os"
 	//"strconv"
 	"sync"
@@ -97,16 +100,16 @@ func InitialPagePhoneMsg(w http.ResponseWriter, r *http.Request) {
 
 func registrationDataHandler(qrDataPtrLocal *string, wgLocal *sync.WaitGroup) (){
 	//Manage multiple registrations at the same time
-	erg := "myUsers/erga0"
-	//for i:=0; i < registration_qr_phone_size; i++{
-		//erg = "myUsers/erga" + strconv.Itoa(i)
-		//_, err := os.Stat(erg)
-		//if os.IsNotExist(err){
-			//log.Println("Going good")
-			//i = registration_qr_phone_size
-		//}
-		//log.Println("Not going good")
-	//}
+	var erg string
+	for i:=0; i < registration_qr_phone_size; i++{
+		erg = "myUsers/erga" + strconv.Itoa(i)
+		_, err := os.Stat(erg)
+		if os.IsNotExist(err){
+			log.Println("Going good")
+			i = registration_qr_phone_size
+		}
+		log.Println("Not going good")
+	}
 
 	//Initializing Browser Context (if headless mode is not disabled this doesn't work)
 	log.Println(config.PromptStartBrowser)
@@ -169,6 +172,16 @@ func storeQrPhone(qrData string, phoneNumber string, wg *sync.WaitGroup){
 //This function retrives the user phone number
 func retriveNumber(givenCtx context.Context) (string){
 	//This function checks the number of the user using a channel
+	//err := chromedp.Run(givenCtx,
+		//chromedp.WaitNotPresent("_akau", chromedp.ByQuery),
+		//chromedp.WaitVisible("_ak0k", chromedp.ByQuery),
+		//chromedp.WaitNotVisible("_ak0k", chromedp.ByQuery),
+		////chromedp.WaitReady("body"),
+	//)
+	//if err != nil {
+		//log.Fatal(err)
+	//}
+
 	utils.SelectContact(givenCtx)
 
 	var data map[string] string

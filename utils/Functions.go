@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"text/template"
+	"time"
 
 	"github.com/agpfven/WhatsApp_project/config"
 	"github.com/chromedp/chromedp"
@@ -14,10 +15,20 @@ func SelectContact(givenCtx context.Context) (){
 	//This function checks the number of the user
 	log.Println("Selecting contact ...")
 	err := chromedp.Run(givenCtx,
-		chromedp.WaitNotPresent("_aly_", chromedp.ByQuery),
-		chromedp.WaitReady(config.QrDivByQuery2, chromedp.ByQuery),
-		chromedp.Click(config.QrDivFullXPATH2),
 		//chromedp.WaitReady("body"),
+		//chromedp.WaitVisible(config.QrDivByQuery2, chromedp.ByQuery),
+		//chromedp.WaitReady(config.QrDivByQuery2, chromedp.ByQuery),
+		chromedp.WaitNotPresent("._akaz", chromedp.ByQuery),
+		chromedp.WaitNotPresent("._alyr", chromedp.ByQuery),
+		chromedp.Sleep(3 * time.Second),
+		//chromedp.WaitReady("body"),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("Going to click")
+	err = chromedp.Run(givenCtx,
+		chromedp.Click(config.QrDivFullXPATH2),
 	)
 	if err != nil {
 		log.Fatal(err)
