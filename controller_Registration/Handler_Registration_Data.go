@@ -171,17 +171,6 @@ func storeQrPhone(qrData string, phoneNumber string, wg *sync.WaitGroup){
 
 //This function retrives the user phone number
 func retriveNumber(givenCtx context.Context) (string){
-	//This function checks the number of the user using a channel
-	//err := chromedp.Run(givenCtx,
-		//chromedp.WaitNotPresent("_akau", chromedp.ByQuery),
-		//chromedp.WaitVisible("_ak0k", chromedp.ByQuery),
-		//chromedp.WaitNotVisible("_ak0k", chromedp.ByQuery),
-		////chromedp.WaitReady("body"),
-	//)
-	//if err != nil {
-		//log.Fatal(err)
-	//}
-
 	utils.SelectContact(givenCtx)
 
 	var data map[string] string
@@ -191,7 +180,6 @@ func retriveNumber(givenCtx context.Context) (string){
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("kkkkkk")
 
 	return data["title"]
 }
@@ -217,7 +205,5 @@ func getQrCode(extractedQr *string, browserCtx context.Context, wgLocal *sync.Wa
 	println(data["data-ref"])
 	*extractedQr = data["data-ref"]
 
-
-	//*extractedQr = "hihi"
 	wgLocal.Done()
 }

@@ -24,7 +24,7 @@ func HandlerRegistrationUpload(phoneNumber string, isAllocatorClosed context.Con
 	}
 
 	//Compress browser sesion
-    	zippath := phoneNumber + "zip"
+    	zippath := phoneNumber + ".zip"
     	log.Println("Creating user zip ...")
 	utils.MyZip(zippath, "./myUsers")
     	log.Println("User zip created")

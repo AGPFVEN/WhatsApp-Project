@@ -17,7 +17,7 @@ const(
 	QrDivFullXPATH1 = "/html/body/div[2]/div/div/div[2]/div[3]/div[1]/div/div/div[2]/div"
 
 	//Select contact	
-	QrDivByQuery2 = ".xurb0ha"
+	QrDivByQuery2 = "._alyr"
 	QrDivFullXPATH2 = "/html/body/div[1]/div/div/div[2]/div[3]/header/div[2]/div/span/div[4]/div"
 
 	//Own number
