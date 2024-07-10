@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/sha256"
+	"fmt"
 	"log"
 )
 
@@ -12,5 +13,7 @@ func main(){
 
 	h.Write([]byte(inp))
 
-	log.Printf("%x\n", h.Sum((nil)))
+	t := fmt.Sprintf("%x.zip", h.Sum((nil)))
+
+	log.Printf(t)
 }

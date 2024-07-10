@@ -2,10 +2,12 @@ package controller_registration
 
 import (
 	"context"
+	"crypto/sha256"
+	"fmt"
+	"log"
 	"os"
-    	"log"
 
-    	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob"
 
 	"github.com/agpfven/WhatsApp_project/utils"
@@ -23,13 +25,17 @@ func HandlerRegistrationUpload(phoneNumber string, isAllocatorClosed context.Con
 		log.Println("Browser Closed")
 	}
 
+	//Make phone number phoneHashed
+	phoneHashed := sha256.New()
+	phoneHashed.Write([]byte(phoneNumber))
+
 	//Compress browser sesion
-    	zippath := phoneNumber + ".zip"
+    	zipPath := fmt.Sprintf("%x.zip", phoneHashed.Sum((nil)))
     	log.Println("Creating user zip ...")
-	utils.MyZip(zippath, "./myUsers")
+	utils.MyZip(zipPath, "./myUsers")
     	log.Println("User zip created")
 
-    	mf, _ := os.Open(zippath)
+    	mf, _ := os.Open(zipPath)
 	state, _:= mf.Stat()
 	data := make([]byte, state.Size())
 	mf.Read(data)
