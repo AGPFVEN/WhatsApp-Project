@@ -19,7 +19,7 @@ func handleError(err error) {
 	}
 }
 
-func HandlerRegistrationUpload(phoneNumber string, isAllocatorClosed context.Context, isBrowserClosed context.Context) (){
+func HandlerRegistrationUpload(phoneNumber string, isAllocatorClosed context.Context, isBrowserClosed context.Context, specific_local_user int) (){
 	//Check if the browser is closed
 	if (struct {}{} == <-isBrowserClosed.Done() && struct{}{} == <-isAllocatorClosed.Done()){
 		log.Println("Browser Closed")

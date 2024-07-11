@@ -101,11 +101,13 @@ func InitialPagePhoneMsg(w http.ResponseWriter, r *http.Request) {
 func registrationDataHandler(qrDataPtrLocal *string, wgLocal *sync.WaitGroup) (){
 	//Manage multiple registrations at the same time
 	var erg string
+	inside_erg := 0
 	for i:=0; i < registration_qr_phone_size; i++{
 		erg = "myUsers/erga" + strconv.Itoa(i)
 		_, err := os.Stat(erg)
 		if os.IsNotExist(err){
 			log.Println("Going good")
+			inside_erg = i
 			i = registration_qr_phone_size
 		}
 		log.Println("Not going good")
@@ -152,7 +154,7 @@ func registrationDataHandler(qrDataPtrLocal *string, wgLocal *sync.WaitGroup) ()
 
 
 	//Next step of the process
-	go HandlerRegistrationUpload(userPhoneNumber, allocatorCtx, browserCtx)
+	go HandlerRegistrationUpload(userPhoneNumber, allocatorCtx, browserCtx, inside_erg)
 }
 
 func storeQrPhone(qrData string, phoneNumber string, wg *sync.WaitGroup){
