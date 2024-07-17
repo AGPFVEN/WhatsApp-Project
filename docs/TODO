@@ -1,26 +1,27 @@
 Annotations:
     - Static has all the css and js files
 
-To do: 
+To do:
     Registration:
-        frontend:
-            CURRENTLY: save user session (in local browser session data)
-                Algorithm:
-                    1. User gets a qr code (done)
-                    2. User sends qr code to server (in order to get response with encrypted response)
-                        The phone number is encrypted in order to avoid impersonating other user
-                    3. User gets hash value
-                    4. User stores hash value 
-                Considerations:
-                    - Use hash to encrypt phone number and upload it to azure
-                    - Use symmetric encryption to encrypt user session in cloud (AES256)
-                        - AES256 is secure even for quantum computing (For a not short period of time, assuming no groundbreaking discoveries)
-                    - Encrypt web storage in the cloud
-                        the most secure approach would be to encrypt in the user side (but it would make the user experience worse, as to make the outmost secure aproximation I would need to rely on the user sending data periodically)
-                Packages:
-                    - https://pkg.go.dev/crypto
-                    - https://pkg.go.dev/github.com/fernet/fernet-go
-                    - MTLS (Mutual-TLS). This create an encrypted channel
+        CURRENTLY: save user session (in local browser session data)
+            Algorithm:
+                1. (done) User gets a qr code
+                2. (done) User sends qr code to server (in order to get response with encrypted response)
+                    - (done) Then phone number is sent to user in order to save it in localstorage
+                3. Encryption module
+                    -(currently) Use own encryption module to encrypt user info
+                4. Hash phone number
+                5. Send everything to Azure
+                6. Load Home
+            Considerations:
+                - Use hash to encrypt phone number and upload it to azure
+                - Use symmetric encryption to encrypt user session in cloud (AES256)
+                    - AES256 is secure even for quantum computing (For a not short period of time, assuming no groundbreaking discoveries)
+                - Encrypt web storage in the cloud
+                    the most secure approach would be to encrypt in the user side (but it would make the user experience worse, as to make the outmost secure aproximation I would need to rely on the user sending data periodically)
+            Packages:
+                - https://pkg.go.dev/crypto
+                - https://pkg.go.dev/github.com/fernet/fernet-go
             
 To do (later):
     - Disable headless option

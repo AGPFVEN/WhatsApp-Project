@@ -35,10 +35,16 @@ func HandlerRegistrationUpload(phoneNumber string, isAllocatorClosed context.Con
 	utils.MyZip(zipPath, "./myUsers")
     	log.Println("User zip created")
 
+	//Presending data to Azure
+    	log.Println("User zip preparation to send ...")
     	mf, _ := os.Open(zipPath)
 	state, _:= mf.Stat()
 	data := make([]byte, state.Size())
 	mf.Read(data)
+    	log.Println("User zip preparation to send completed")
+
+	//Encrypting data
+	
 
     	//Send browser session to azure blob storage
     	log.Println("Sending user zip to azure...")

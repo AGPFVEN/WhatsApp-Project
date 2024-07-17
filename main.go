@@ -10,8 +10,11 @@ import (
 )
 
 func main(){
-	// Define routes (make them safe from saturation) --------
-	http.HandleFunc(config.WebPagesLanding, controller_registration.InitialPageLoader)
+	// Define routes (webpages)
+	http.HandleFunc(config.WebPagesLanding, controller_registration.InitialPageLoader) //Sign in
+	//http.HandleFunc(config.WebPagesHome, ) //Home
+
+	// Define routes (utilitites for Initial Page Loader -> Sign in)
 	http.HandleFunc(config.WebPagesLandingMsg, controller_registration.InitialPageQrMsg)
 	http.HandleFunc(config.WebPagesLandingMsg1, controller_registration.InitialPagePhoneMsg)
 

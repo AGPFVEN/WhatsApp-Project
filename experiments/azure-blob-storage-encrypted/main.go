@@ -81,7 +81,7 @@ func retriveFromAzure(blobName string) (err error){
 	err = retryReader.Close()
 	handleError(err)
 
-	aesblock, err := aes.NewCipher(encryptedDownloadedData.Bytes())
+	_ , err = aes.NewCipher(encryptedDownloadedData.Bytes())
 	handleError(err)
 
 	err = os.WriteFile("THE_exp.zip", encryptedDownloadedData.Bytes(), 0644)
