@@ -3,8 +3,6 @@ package utils
 import (
 	"context"
 	"log"
-	"net/http"
-	"text/template"
 	"time"
 
 	"github.com/agpfven/WhatsApp_project/config"
@@ -31,18 +29,4 @@ func SelectContact(givenCtx context.Context) (){
 		log.Fatal(err)
 	}
 	log.Println("Select contact page ready")
-}
-
-func SendHTMLToBrowser(filename string, w http.ResponseWriter, data any) (error){
-		//Load html file with qr code
-		t, err := template.ParseFiles(filename)
-		if err != nil {
-			print(err)
-		}
-		
-		//Execute template into user browser
-		if t.Execute(w, data) != nil{
-			print(err)
-		}
-	return nil
 }
