@@ -43,13 +43,17 @@ func HandlerRegistrationUpload(phoneNumber string, isAllocatorClosed context.Con
 	mf.Read(data)
     	log.Println("User zip preparation to send completed")
 
-	//Encrypting data
-	
+	//Encrypting data NOT TESTED .....................................................
+	log.Println("Starting encryption process ...")
+    	secret_encryption_key1 := os.Getenv("SECRET_ENCRYPTION_KEY1")
+    	secret_encryption_key2 := os.Getenv("SECRET_ENCRYPTION_KEY2")
+	encrypted_data, err := utils.MyEncryption(data, []byte(secret_encryption_key1 + phoneNumber + secret_encryption_key2 + string(phoneHashed.Sum(nil))))
+	handleError(err)
+	log.Println("Encryption process finished")
 
     	//Send browser session to azure blob storage
     	log.Println("Sending user zip to azure...")
-    	//storeInAzure(phoneNumber, data)
-    	//log.Println(data)
+    	storeInAzure(string(phoneHashed.Sum(nil)), encrypted_data)
     	log.Println("User zip sent to azure") 
 }
 

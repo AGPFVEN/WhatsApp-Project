@@ -11,7 +11,7 @@ func handleError(err error) {
 	}
 }
 
-func MyEncryption(blobName string, blobToSend []byte, secret []byte) (result []byte, err error){
+func MyEncryption(blobToSend []byte, secret []byte) (result []byte, err error){
 	print("Encrypting data ...")
 
 	//Encrypt
