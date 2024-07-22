@@ -8,23 +8,21 @@ To do:
                 1. (done) User gets a qr code
                 2. (done) User sends qr code to server (in order to get response with encrypted response)
                     - (done) Then phone number is sent to user in order to save it in localstorage
-                3. Encryption module
-                    -(currently) Use own encryption module to encrypt user info
-                4. Hash phone number
-                5. Send everything to Azure
-                6. Load Home
-            Considerations:
-                - Use hash to encrypt phone number and upload it to azure
-                - Use symmetric encryption to encrypt user session in cloud (AES256)
-                    - AES256 is secure even for quantum computing (For a not short period of time, assuming no groundbreaking discoveries)
-                - Encrypt web storage in the cloud
-                    the most secure approach would be to encrypt in the user side (but it would make the user experience worse, as to make the outmost secure aproximation I would need to rely on the user sending data periodically)
-            Packages:
-                - https://pkg.go.dev/crypto
-                - https://pkg.go.dev/github.com/fernet/fernet-go
+                3. (done) Encryption module
+                    3.1 (done) Hash phone number
+                    3.2 (done) AES data
+                    - Considerations:
+                        - Use hash to encrypt phone number and upload it to azure
+                        - Use symmetric encryption to encrypt user session in cloud (AES256)
+                            - AES256 is secure even for quantum computing (For a not short period of time, assuming no groundbreaking discoveries)
+                        - Encrypt web storage in the cloud
+                            the most secure approach would be to encrypt in the user side (but it would make the user experience worse, as to make the outmost secure aproximation I would need to rely on the user sending data periodically)
+                4. (done) Send everything to Azure
+                5. Load Home
             
 To do (later):
     - Disable headless option
+    - Change log_in.html line 17 'http://localhost:3000/home' to whatever I want
     - Where to store AES256 key? 
 
     Create frontend:

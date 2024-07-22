@@ -12,6 +12,7 @@ import (
 func main(){
 	// Define routes (webpages)
 	http.HandleFunc(config.WebPagesLanding, controller_registration.InitialPageLoader) //Sign in
+	http.HandleFunc(config.WebPagesHome, controller_registration.InitialPageLoader) //Home
 	//http.HandleFunc(config.WebPagesHome, ) //Home
 
 	// Define routes (utilitites for Initial Page Loader -> Sign in)
