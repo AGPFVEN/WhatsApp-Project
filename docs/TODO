@@ -1,24 +1,6 @@
-Annotations:
-    - Static has all the css and js files
-
-To do:
-    Registration:
-        CURRENTLY: save user session (in local browser session data)
-            Algorithm:
-                1. (done) User gets a qr code
-                2. (done) User sends qr code to server (in order to get response with encrypted response)
-                    - (done) Then phone number is sent to user in order to save it in localstorage
-                3. (done) Encryption module
-                    3.1 (done) Hash phone number
-                    3.2 (done) AES data
-                    - Considerations:
-                        - Use hash to encrypt phone number and upload it to azure
-                        - Use symmetric encryption to encrypt user session in cloud (AES256)
-                            - AES256 is secure even for quantum computing (For a not short period of time, assuming no groundbreaking discoveries)
-                        - Encrypt web storage in the cloud
-                            the most secure approach would be to encrypt in the user side (but it would make the user experience worse, as to make the outmost secure aproximation I would need to rely on the user sending data periodically)
-                4. (done) Send everything to Azure
-                5. Load Home
+Currently:
+    2. Load Home:
+        2.1 Design user experience idea
             
 To do (later):
     - Disable headless option
@@ -46,13 +28,22 @@ To do (later):
 
 
 Solved:
-    Registration:
-        Qr extraction
-        Show qr to user
-        Session management (get browser session from user)
-        Autoregister (get browser data and phone number)
-        Compress files
-        Upload wss files (done):
+    1. Registration:
+        (done) 1.1 Qr extraction
+        (done) 1.2 Show qr to user
+        (done) 1.3 Session management (get browser session from user)
+        (done) 1.4 Autoregister (get browser data and phone number)
+        (done) 1.5 Compress files
+            - Considerations
+                - Own Encryption module to zip and unzip files (successfully)
+        (done) 1.6 Encrypt user data and phone number 
+            - Considerations:
+                - Use hash to encrypt phone number and upload it to azure
+                - Use symmetric encryption to encrypt user session in cloud (AES256)
+                    - AES256 is secure even for quantum computing (For a not short period of time, assuming no groundbreaking discoveries)
+                - Encrypt web storage in the cloud
+                    - The most secure approach would be to encrypt in the user side (but it would make the user experience worse, as to make the outmost secure aproximation I would need to rely on the user sending data periodically)
+        (done) Upload wss files (done):
             Azure:
                 Resources:
                     https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-go?tabs=roles-azure-portal
@@ -60,9 +51,7 @@ Solved:
                     https://www.youtube.com/watch?v=bX-SSTCe2CY
                     https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal
                     Use python example applied to go project. Spent 5+ hours following useless tutorials
-                Progress:
-                    Quickstart microsoft app done (permisions and local implementations successfully done)
-
+        (done) Save user session (in local browser session data)
 To run:
     go build
     ./WhatsApp_project
