@@ -27,7 +27,7 @@ To do (later):
                 - js minimize-> Build tool (WebPack or Rollup)
 
 
-Solved:
+Solved and need to be done again:
     1. Registration:
         (done) 1.1 Qr extraction
         (done) 1.2 Show qr to user
@@ -43,7 +43,7 @@ Solved:
                     - AES256 is secure even for quantum computing (For a not short period of time, assuming no groundbreaking discoveries)
                 - Encrypt web storage in the cloud
                     - The most secure approach would be to encrypt in the user side (but it would make the user experience worse, as to make the outmost secure aproximation I would need to rely on the user sending data periodically)
-        (done) Upload wss files (done):
+        (done) 1.7 Upload wss files (done):
             Azure:
                 Resources:
                     https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-go?tabs=roles-azure-portal
@@ -51,7 +51,13 @@ Solved:
                     https://www.youtube.com/watch?v=bX-SSTCe2CY
                     https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal
                     Use python example applied to go project. Spent 5+ hours following useless tutorials
-        (done) Save user session (in local browser session data)
+        (done) 1.8 Save user session (in local browser session data)
 To run:
     go build
     ./WhatsApp_project
+
+    LOCAL_ONLY=true go run cmd/main.go
+To Deploy:
+    gcloud run deploy <function name in google service> --source . --function <name of the function in the URL> --base-image go123 --region europe-west1 --allow-unauthenticated
+    por ejemplo
+    gcloud run deploy go-http-functionw --source . --function HelloWorld --base-image go123 --region europe-west1 --allow-unauthenticated
