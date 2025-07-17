@@ -52,6 +52,12 @@ Solved and need to be done again:
                     https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal
                     Use python example applied to go project. Spent 5+ hours following useless tutorials
         (done) 1.8 Save user session (in local browser session data)
+
+Done:
+    1. Registration:
+
+descargar drawio
+
 To run:
     go build
     ./WhatsApp_project

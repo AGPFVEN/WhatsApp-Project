@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://unpkg.com/qrious/dist/qrious.js"></script>
+	<script src="./config.js"></script>
+	<title>Wss Project</title>
+</head>
+
+<body>
+	<script>
+		console.log(window.API)
+
+		// Obtén el valor almacenado en localStorage con la clave "phone_number"
+		var phoneNumber = localStorage.getItem('phone_number');
+    
+    	// Comprueba si phoneNumber no es null
+		//---------------------------------------------------------------Handle this (href handwritten)
+    	if (phoneNumber !== null) {
+			window.location.href = '${}/home';
+    	}
+
+		var qrdata = "";
+
+		window.addEventListener('load', function() {
+			fetch('{{.QrMsgURL}}')
+				.then(response => response.json())
+				.then(data => {
+					qrdata = data.message
+					localStorage.setItem("qr_data", data.message)
+					new QRious({
+						element: document.querySelector("#qr_code"),
+						value: data.message, 	// La URL o el texto
+						size: 200,
+						backgroundAlpha: 0, 	// 0 para fondo transparente
+						foreground: "#8bc34a", 	// Color del QR
+						level: "H", 		// Puede ser L,M,Q y H (L es el de menor nivel, H el mayor)
+					});
+                    		document.getElementById('aviso').innerText = "Escanea con Wss";
+                    		document.getElementById('qr_code').style.visibility = 'visible';
+
+					fetch('{{.PhoneMsgURL}}', {
+  						method: 'POST',
+  						headers: {
+    							'Content-Type': 'text/plain'
+  						},
+  						body: data.message
+					})
+					.then(response => response.text())
+					.then(responseText => {
+  						console.log('Success:', responseText);
+						localStorage.setItem("phone_number", responseText)
+					})
+					.catch(error => {
+  						console.error('Error:', error);
+					});
+				})
+				.catch(error => console.error('Error loading qr code: ', error))
+		})
+
+	</script>
+	<p id="aviso">Cargando...</p>
+	<p id="estado">Estado: crítico</p>
+	<img alt="Code QR" id="qr_code" style="visibility:hidden">
+</body>
+
+</html>

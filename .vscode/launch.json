@@ -1,0 +1,30 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+    {
+      "name": "Debug Functions Local",
+      "type": "go",          // Usa la extensión oficial de Go
+      "request": "launch",
+      "mode": "auto",        // Delve elegirá build o run automáticamente
+      // === Ruta del programa =========================================
+      //   • ${workspaceFolder} = la raíz de tu repo (donde vive run_local.sh)
+      //   • Basta con apuntar al directorio; Delve busca el main.go ahí.
+      "program": "${workspaceFolder}/functions/cmd",
+      // === Variables de entorno ======================================
+      "env": {
+        "LOCAL_ONLY": "true",
+        "USER_DATA_DIR": "${workspaceFolder}/myUsers/usr0"
+      },
+      // (opcional) Carpeta de trabajo ─ replica el `cd "$ROOT_DIR"` del script.
+      "cwd": "${workspaceFolder}",
+      // (opcional) argumentos que quieras pasar a main.go:
+      "args": [
+        // "-flag1", "valor",
+        // "--verbose"
+      ]
+    }
+  ]
+}
